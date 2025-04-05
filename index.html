@@ -1,0 +1,110 @@
+<!-- multilingual-ai-chatbot.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multilingual AI Chatbot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg p-6">
+    <h1 class="text-3xl font-bold mb-4 text-center">🤖 Multilingual AI Chatbot</h1>
+    <div id="chat" class="h-96 overflow-y-auto border p-4 rounded bg-gray-50 text-sm mb-4"></div>
+    <div class="flex space-x-2">
+      <input id="userInput" type="text" placeholder="Ask me anything..." class="w-full border rounded px-3 py-2 focus:outline-none"/>
+      <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Send</button>
+    </div>
+  </div>
+
+  <script>
+    const chat = document.getElementById("chat");
+
+    const responses = [
+      {
+        keywords: ["world war ii", "second world war"],
+        reply: "World War II was a global war from 1939 to 1945 involving many of the world's nations."
+      },
+      {
+        keywords: ["вторая мировая война", "вов"],
+        reply: "Вторая мировая война — это глобальный конфликт, который длился с 1939 по 1945 год."
+      },
+      {
+        keywords: ["ikkinchi jahon urushi", "2-jahon urushi"],
+        reply: "Ikkinchi Jahon urushi 1939-yildan 1945-yilgacha davom etgan global urush edi."
+      },
+      {
+        keywords: ["what is html"],
+        reply: "HTML stands for HyperText Markup Language. It is used to structure web content."
+      },
+      {
+        keywords: ["что такое html"],
+        reply: "HTML (язык гипертекстовой разметки) используется для структуры веб-страниц."
+      },
+      {
+        keywords: ["html nima"],
+        reply: "HTML bu web sahifalarni tuzish uchun ishlatiladigan til."
+      },
+      {
+        keywords: ["who is elon musk"],
+        reply: "Elon Musk is a billionaire entrepreneur, founder of Tesla, SpaceX, and more."
+      },
+      {
+        keywords: ["кто такой илон маск"],
+        reply: "Илон Маск — предприниматель, основатель компаний Tesla, SpaceX и других."
+      },
+      {
+        keywords: ["elon musk kim"],
+        reply: "Elon Musk — Tesla, SpaceX kabi kompaniyalarni asos solgan tadbirkor."
+      },
+      {
+        keywords: ["salom", "hello", "привет"],
+        reply: "Salom! 👋 Qanday yordam bera olaman? / Hello! / Привет!"
+      },
+      {
+        keywords: ["rahmat", "thank you", "спасибо"],
+        reply: "Arzimaydi! 😊 / You're welcome! / Пожалуйста!"
+      },
+      {
+        keywords: ["xayr", "bye", "пока"],
+        reply: "Xayr! Yaxshi kun tilayman! / Goodbye! / Пока!"
+      }
+    ];
+
+    function getBotResponse(message) {
+      const lowerMsg = message.toLowerCase();
+
+      for (const res of responses) {
+        for (const keyword of res.keywords) {
+          if (lowerMsg.includes(keyword)) return res.reply;
+        }
+      }
+
+      return "Kechirasiz, bu mavzuda hozircha ma’lumotim yo‘q. 🙈 / Sorry, I don't know about that yet. / Извините, я пока не знаю этого.";
+    }
+
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value.trim();
+      if (!message) return;
+
+      chat.innerHTML += `<div class="text-right mb-2">
+        <p class="inline-block bg-blue-200 px-4 py-2 rounded">${message}</p>
+      </div>`;
+      input.value = "";
+
+      setTimeout(() => {
+        const botResponse = getBotResponse(message);
+        chat.innerHTML += `<div class="text-left mb-2">
+          <p class="inline-block bg-gray-200 px-4 py-2 rounded">${botResponse}</p>
+        </div>`;
+        chat.scrollTop = chat.scrollHeight;
+      }, 400);
+    }
+
+    document.getElementById("userInput").addEventListener("keypress", function(e) {
+      if (e.key === "Enter") sendMessage();
+    });
+  </script>
+</body>
+</html>
